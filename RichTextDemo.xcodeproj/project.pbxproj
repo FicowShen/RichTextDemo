@@ -18,6 +18,8 @@
 		6AF1DE03238AA3F8007F56FD /* TextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF1DE02238AA3F8007F56FD /* TextStorage.swift */; };
 		6AF1DE05238AA40B007F56FD /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF1DE04238AA40B007F56FD /* LayoutManager.swift */; };
 		6AF1DE07238AA419007F56FD /* TextContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF1DE06238AA419007F56FD /* TextContainer.swift */; };
+		89E02780238BD18600541071 /* RichTextConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E0277F238BD18600541071 /* RichTextConvertible.swift */; };
+		89E02782238BD6D800541071 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89E02781238BD6D800541071 /* MyCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		6AF1DE02238AA3F8007F56FD /* TextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStorage.swift; sourceTree = "<group>"; };
 		6AF1DE04238AA40B007F56FD /* LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		6AF1DE06238AA419007F56FD /* TextContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextContainer.swift; sourceTree = "<group>"; };
+		89E0277F238BD18600541071 /* RichTextConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichTextConvertible.swift; sourceTree = "<group>"; };
+		89E02781238BD6D800541071 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +112,7 @@
 				6AF1DDD2238AA3CB007F56FD /* AppDelegate.swift */,
 				6AF1DDD4238AA3CB007F56FD /* SceneDelegate.swift */,
 				6AF1DDD6238AA3CB007F56FD /* ViewController.swift */,
+				89E02781238BD6D800541071 /* MyCell.swift */,
 				6AF1DDD8238AA3CB007F56FD /* Main.storyboard */,
 				6AF1DDDB238AA3CC007F56FD /* Assets.xcassets */,
 				6AF1DDDD238AA3CC007F56FD /* LaunchScreen.storyboard */,
@@ -115,6 +120,7 @@
 				6AF1DE02238AA3F8007F56FD /* TextStorage.swift */,
 				6AF1DE04238AA40B007F56FD /* LayoutManager.swift */,
 				6AF1DE06238AA419007F56FD /* TextContainer.swift */,
+				89E0277F238BD18600541071 /* RichTextConvertible.swift */,
 			);
 			path = RichTextDemo;
 			sourceTree = "<group>";
@@ -273,6 +279,8 @@
 				6AF1DDD7238AA3CB007F56FD /* ViewController.swift in Sources */,
 				6AF1DDD3238AA3CB007F56FD /* AppDelegate.swift in Sources */,
 				6AF1DE03238AA3F8007F56FD /* TextStorage.swift in Sources */,
+				89E02782238BD6D800541071 /* MyCell.swift in Sources */,
+				89E02780238BD18600541071 /* RichTextConvertible.swift in Sources */,
 				6AF1DDD5238AA3CB007F56FD /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
