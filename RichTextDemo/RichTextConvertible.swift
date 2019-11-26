@@ -6,15 +6,15 @@ protocol RichTextConvertible: class {
 }
 
 extension RichTextConvertible {
-    func generateRichTextFromHTML(onQueue queue: DispatchQueue = .global(qos: .default),
+    func generateRichTextFromHTML(onQueue queue: DispatchQueue = .global(qos: .background),
                                   callbackQueue: DispatchQueue = .main ,
-                                  completion: @escaping ((NSAttributedString) -> ())) {
+                                  completion: ((NSAttributedString) -> ())?) {
         if let attributedString = attributedString {
             if OperationQueue.current?.underlyingQueue == callbackQueue {
-                completion(attributedString)
+                completion?(attributedString)
             } else {
                 callbackQueue.async {
-                    completion(attributedString)
+                    completion?(attributedString)
                 }
             }
             return
@@ -23,7 +23,7 @@ extension RichTextConvertible {
             let attributedHTMLString = self.rawHTMLString.attributedHTMLString
             callbackQueue.async {
                 self.attributedString = attributedHTMLString
-                completion(attributedHTMLString)
+                completion?(attributedHTMLString)
             }
         }
     }
@@ -34,10 +34,10 @@ extension String {
         guard let data = self.data(using: .utf8)
             else { return NSMutableAttributedString() }
         do {
-
-            return try NSMutableAttributedString(data: data,
-                                                 options: [.documentType : NSAttributedString.DocumentType.html],
-                                                 documentAttributes: nil)
+            let attributedString = try NSMutableAttributedString(data: data,
+                                                                 options: [.documentType : NSAttributedString.DocumentType.html],
+                                                                 documentAttributes: nil)
+            return attributedString
         } catch {
             print(error.localizedDescription)
             return NSMutableAttributedString()

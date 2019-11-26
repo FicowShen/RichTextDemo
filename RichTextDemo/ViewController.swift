@@ -25,6 +25,7 @@ final class ViewController: UIViewController {
 
     let models = [HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif,
                   HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif,
+                  HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif,
                   HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif].map { Model(rawHTMLString: $0) }
 
 //    let textStorage = TextStorage()
@@ -42,6 +43,10 @@ final class ViewController: UIViewController {
 //        let textView = UITextView(frame: .zero, textContainer: textContainer)
 //        return textView
 //    }()
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
 
 }
 

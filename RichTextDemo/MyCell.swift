@@ -8,22 +8,18 @@ final class MyCell: UITableViewCell {
     var model: Model? {
         didSet {
             guard let model = self.model else { return }
-            guard let attributedString = model.attributedString else {
-                model.generateRichTextFromHTML { [weak self] attributedHTMLString in
-                    self?.updateText(attributedHTMLString: attributedHTMLString, forModel: model)
+            guard let _ = model.attributedString else {
+                model.generateRichTextFromHTML { [weak self] _ in
+                    guard let self = self else { return }
+                    self.richTextLabel.setup(richText: model, layoutDelegate: self)
                 }
                 return
             }
-            updateText(attributedHTMLString: attributedString, forModel: model)
+            richTextLabel.setup(richText: model, layoutDelegate: self)
         }
     }
 
-    private lazy var textView: UITextView = {
-        let textView = UITextView()
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        return textView
-    }()
+    private lazy var richTextLabel = RichTextLabel()
     private var heightConstraint: NSLayoutConstraint?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -36,24 +32,22 @@ final class MyCell: UITableViewCell {
     }
 
     private func setup() {
-        contentView.addSubview(textView)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([textView.topAnchor.constraint(equalTo: contentView.topAnchor),
-                                     textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                                     textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                                     textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
-        heightConstraint = textView.heightAnchor.constraint(equalToConstant: 8)
+        contentView.addSubview(richTextLabel)
+        richTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([richTextLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+                                     richTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                                     richTextLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                                     richTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
+        heightConstraint = richTextLabel.heightAnchor.constraint(equalToConstant: 32)
         heightConstraint?.priority = .defaultHigh
         heightConstraint?.isActive = true
     }
+}
 
-    private func updateText(attributedHTMLString: NSAttributedString, forModel model: Model) {
-        guard model === self.model,
-            let indexPath = indexPath else { return }
-        textView.attributedText = attributedHTMLString
-        textView.layoutIfNeeded()
-        let height = textView.sizeThatFits(.init(width: textView.bounds.width, height: .greatestFiniteMagnitude)).height
+extension MyCell: RichTextLabelLayoutDelegate {
+    func richTextLabel(_ label: RichTextLabel, needsUpdateHeight height: CGFloat) {
         heightConstraint?.constant = height
+        guard let indexPath = indexPath else { return }
         (superview as? UITableView)?.reloadRows(at: [indexPath], with: .none)
     }
 }
