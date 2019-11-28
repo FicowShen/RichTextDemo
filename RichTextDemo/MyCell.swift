@@ -1,25 +1,32 @@
 import UIKit
+import WebKit
 
 final class MyCell: UITableViewCell {
 
     static let reuseId = String(describing: self)
 
     var indexPath: IndexPath?
+    var loadedHTMLString: String?
     var model: Model? {
         didSet {
-            guard let model = self.model else { return }
-            guard let _ = model.attributedString else {
-                model.generateRichTextFromHTML { [weak self] _ in
-                    guard let self = self else { return }
-                    self.richTextLabel.setup(richText: model, layoutDelegate: self)
-                }
-                return
-            }
-            richTextLabel.setup(richText: model, layoutDelegate: self)
+            guard let model = self.model,
+                model !== oldValue
+                else { return }
+            loadedHTMLString = model.rawHTMLString
+            webview.loadHTMLString(model.rawHTMLString, baseURL: nil)
+//            guard let _ = model.attributedString else {
+//                model.generateRichTextFromHTML { [weak self] _ in
+//                    guard let self = self else { return }
+//                    self.richTextLabel.setup(richText: model, layoutDelegate: self)
+//                }
+//                return
+//            }
+//            richTextLabel.setup(richText: model, layoutDelegate: self)
         }
     }
 
-    private lazy var richTextLabel = RichTextLabel()
+    private lazy var webview = WKWebView()
+//    private lazy var richTextLabel = RichTextLabel()
     private var heightConstraint: NSLayoutConstraint?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -32,15 +39,59 @@ final class MyCell: UITableViewCell {
     }
 
     private func setup() {
-        contentView.addSubview(richTextLabel)
-        richTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([richTextLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-                                     richTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                                     richTextLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                                     richTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
-        heightConstraint = richTextLabel.heightAnchor.constraint(equalToConstant: 32)
-        heightConstraint?.priority = .defaultHigh
-        heightConstraint?.isActive = true
+        let contentViewHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: 2000)
+        contentViewHeightConstraint.priority = .defaultHigh
+        contentViewHeightConstraint.isActive = true
+
+        webview.navigationDelegate = self
+        contentView.addSubview(webview)
+        webview.frame = contentView.bounds
+//        heightConstraint = webview.heightAnchor.constraint(equalToConstant: 500)
+//        heightConstraint?.isActive = true
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        webview.frame = contentView.bounds
+    }
+}
+
+extension MyCell: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+//        webView.sizeToFit()
+//        print(webView.intrinsicContentSize)
+//        print(webView.scrollView.contentSize.height)
+
+        webView.evaluateJavaScript("document.documentElement.scrollHeight", completionHandler: { (height, error) in
+            guard let height = height as? CGFloat else { return }
+            print(height)
+            webView.frame.size.height = height
+        })
+//        webView.evaluateJavaScript("document.readyState", completionHandler: { (complete, error) in
+//            guard complete != nil else {
+//                return
+//            }
+//            webView.evaluateJavaScript("document.documentElement.scrollHeight", completionHandler: { [weak self] (height, error) in
+//                guard let self = self,
+//                    let height = height as? CGFloat
+//                    else { return }
+//                self.heightConstraint?.constant = height
+//                guard let indexPath = self.indexPath,
+//                    let tableView = self.superview as? UITableView
+//                    else { return }
+//
+//                tableView.performBatchUpdates({
+//                    tableView.reloadRows(at: [indexPath], with: .none)
+//                }, completion: nil)
+//            })
+//        })
+
+
+//        let fittedSize = webView.scrollView.contentSize
+//        heightConstraint?.constant = fittedSize.height
+//        guard let indexPath = indexPath else { return }
+//        (superview as? UITableView)?.reloadRows(at: [indexPath], with: .none)
     }
 }
 
