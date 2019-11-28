@@ -23,8 +23,8 @@ final class ViewController: UIViewController {
         }
     }
 
-    let models = [HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif,
-                  HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif,
+    let models = [HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif, HTML.formattedText,
+                  HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif, HTML.formattedText,
                   HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif,
                   HTML.onlyText, HTML.textAndStaticImage, HTML.textAndGif].map { Model(rawHTMLString: $0) }
 
@@ -117,6 +117,30 @@ private enum HTML {
         It's time to vote for our private group admins. These will be the ones responsible for adding and screening members into the group, and making sure the group runs smoothly. We'll choose the top 3 at the end of the week. Voting is anonymous, and you can only vote once.
         <br />
         """
+    static let formattedText = """
+<head>
+<style>
+body {background-color: #f0f0f0;}
+h1   {color: green;}
+p    {color: purple;}
+div.Quote {
+  color: black;
+  border-left: 6px solid red;
+  background-color: lightgrey;
+}
+</style>
+</head>
+<body>
+<b>bold</b><b>Text</b><b></b><br><i>italic</i><i>Text</i><i><br></i><strike>strikeText</strike><i><br></i><b><i><strike>boldAndItalicAndStrike<br></strike></i></b><br><ol><li>Ordered Item 1</li><li>Ordered Item&nbsp;2</li></ol><br><ul><li>Unordered Item 1</li><li>Unordered Item 2<br></li></ul><br><span class="post-color-red">RedColorText<br></span><br><h1>Heading 1</h1><h2>Heading 2</h2><br><div class="Quote">QuoteText</div><br><pre class="CodeBlock"><code>CodeText</code></pre><br><div class="Spoiler">SpoilerText</div><br>Emoji&nbsp; :)  :D  :(  ;)  :/  :o  :s  :p  :'(  :|  B)  :#  :*  &lt;3  o:)  &gt;:) <br><br>Link:&nbsp;<a rel="nofollow" href="http://baidu.com">http://baidu.com/</a> <br><br>File&nbsp;<br><br><img alt="" src="https://us.v-cdn.net/5020794/uploads/editor/aj/m1vcwf0wuk62.png"><br><br><div class="post-text-align-left">Left aligned</div><br><div class="post-text-align-center">Center aligned</div><br><div class="post-text-align-right">Right aligned</div><br><br><br><br><br><br><br><br><br>
+<a href=\"https://forums.thebump.com/profile/tennesseelove\" rel=\"nofollow\">@tennesseelove</a> please let us know how your next cycle goes. &nbsp;We are thinking of possibly doing IVF but my husband is very hesitant to spend the money and possibly not respond to the meds and basically throw that money out. &nbsp;Do you mind me asking what your AFC (follicle count on day 3 is?)
+<div><br /></div>
+<div class="Quote">
+My appointment today sucked. It was CD 12 and I am not responding at all, no follicles are growing so we are scraping this cycle. &nbsp;The dr gave us 3 options/thoughts as to what to do next. &nbsp;1) is to try clomid (the past 3 months I have used Femara) I was on clomid back in April and I didn\'t ovulate or grow follicles and got a cyst so i am very hesitant to try it again but she thinks it is worth giving another shot. &nbsp;2) She suggesting taking a 2 month break and taking DHEA as a supplement and possibly acupuncture and then seeing if my amh and/or afc go up. &nbsp;3) IVF but she is hesitant to do that if my AFC is low like it was today. &nbsp;So that would be a game time decision I think if my follicle count is fairly good.&nbsp;
+</div>
+<div class="Quote">Not sure what we are going to do at this point. &nbsp;Sometimes I think all these meds just aren\'t going to work for my body and we would have a better shot and just trying naturally. &nbsp;But then I get impatient and just want a baby now and think meds are the way to go. &nbsp;If only it weren\'t so expensive.
+</div>
+</body>
+"""
 }
 
 func printValues(_ values: Any..., separator: String = "\n", endSymbol: String = "\n", function: String = #function) {
